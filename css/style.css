@@ -1,0 +1,344 @@
+:root {
+    --azul: #14497f;
+    --azul-escuro: #0c2d50;
+    --amarelo: #f5bd16;
+    --verde: #14694a;
+    --fundo: #edf1f4;
+    --branco: #ffffff;
+    --texto: #1b2a36;
+    --texto-suave: #4d606e;
+    --linha: #d5dee5;
+
+    --fonte-texto: "Atkinson Hyperlegible", Verdana, Arial, sans-serif;
+    --fonte-titulo: "Overpass", "Arial Narrow", Arial, sans-serif;
+    --largura: 900px;
+}
+
+/* ---------- Base ---------- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--fundo);
+    color: var(--texto);
+    font-family: var(--fonte-texto);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+}
+
+h1, h2, h3 {
+    font-family: var(--fonte-titulo);
+    line-height: 1.2;
+}
+
+ul {
+    list-style: none;
+}
+
+a:focus-visible {
+    outline: 3px solid var(--amarelo);
+    outline-offset: 3px;
+}
+
+/* ---------- Placa azul (inspirada nas placas de rua) ---------- */
+.placa {
+    background: var(--azul);
+    color: var(--branco);
+    border: 2px solid var(--branco);
+    border-radius: 10px;
+    box-shadow: 0 0 0 4px var(--azul);
+}
+
+/* ---------- 1. Imagem da cidade ---------- */
+.capa {
+    position: relative;
+}
+
+.capa img {
+    display: block;
+    width: 100%;
+    height: clamp(240px, 38vw, 420px);
+    object-fit: cover;
+}
+
+.capa-placa {
+    position: absolute;
+    bottom: 24px;
+    left: max(20px, calc((100% - var(--largura)) / 2 + 20px));
+    max-width: calc(100% - 40px);
+    padding: 12px 24px;
+}
+
+.capa-placa h1 {
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    font-weight: 800;
+}
+
+.capa-placa p {
+    font-size: 1.1rem;
+}
+
+/* ---------- 2. Botões ---------- */
+.menu {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--azul-escuro);
+    border-bottom: 5px solid var(--amarelo);
+}
+
+.menu ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: var(--largura);
+    margin: 0 auto;
+    padding: 12px 16px;
+}
+
+.menu li {
+    flex: 1 1 130px;
+}
+
+.menu a {
+    display: block;
+    padding: 10px 12px;
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    border-radius: 8px;
+    color: var(--branco);
+    font-family: var(--fonte-titulo);
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+}
+
+.menu a:hover {
+    border-color: var(--branco);
+    background: var(--azul);
+}
+
+/* =====================================================
+   BOTÕES: mostram um tópico por vez, só com CSS.
+   Ao clicar em "Saúde", o endereço termina em #saude e o
+   CSS usa ":target" para saber qual botão foi escolhido.
+   ===================================================== */
+.alvo {
+    position: absolute;
+    top: 0;
+}
+
+/* Botão destacado em amarelo */
+.menu a.botao-inicio,
+#saude:target ~ .menu a.botao-saude,
+#seguranca:target ~ .menu a.botao-seguranca,
+#prefeitura:target ~ .menu a.botao-prefeitura,
+#lazer:target ~ .menu a.botao-lazer {
+    background: var(--amarelo);
+    border-color: var(--amarelo);
+    color: var(--azul-escuro);
+}
+
+/* Com outro tópico escolhido, o "Início" volta ao normal */
+.alvo:target ~ .menu a.botao-inicio {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.45);
+    color: var(--branco);
+}
+
+.alvo:target ~ .menu a.botao-inicio:hover {
+    background: var(--azul);
+    border-color: var(--branco);
+}
+
+/* A apresentação aparece somente no Início */
+.alvo:target ~ main .apresentacao {
+    display: none;
+}
+
+/* Esconde os tópicos que não foram escolhidos */
+#saude:target ~ main .topico:not(.topico-saude),
+#seguranca:target ~ main .topico:not(.topico-seguranca),
+#prefeitura:target ~ main .topico:not(.topico-prefeitura),
+#lazer:target ~ main .topico:not(.topico-lazer) {
+    display: none;
+}
+
+/* ---------- Conteúdo ---------- */
+.conteudo {
+    max-width: var(--largura);
+    margin: 0 auto;
+    padding: 36px 16px 16px;
+}
+
+/* ---------- 3. Apresentação ---------- */
+.apresentacao {
+    margin-bottom: 24px;
+}
+
+.apresentacao h2 {
+    margin-bottom: 10px;
+    color: var(--azul-escuro);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 800;
+}
+
+.apresentacao p {
+    max-width: 65ch;
+}
+
+.aviso {
+    margin-bottom: 36px;
+    padding: 12px 16px;
+    background: #fff4cc;
+    border: 1px solid var(--amarelo);
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+/* ---------- 4. Lista de contatos ---------- */
+.topico {
+    margin-bottom: 44px;
+}
+
+.topico h2 {
+    display: inline-block;
+    margin: 4px 4px 14px;
+    padding: 6px 22px;
+    font-size: 1.4rem;
+}
+
+.topico-descricao {
+    margin-bottom: 12px;
+    color: var(--texto-suave);
+}
+
+.lista {
+    background: var(--branco);
+    border: 1px solid var(--linha);
+    border-radius: 12px;
+}
+
+.contato {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+}
+
+.contato + .contato {
+    border-top: 1px solid var(--linha);
+}
+
+.contato h3 {
+    font-size: 1.2rem;
+}
+
+.contato-dados p {
+    color: var(--texto-suave);
+}
+
+.contato-dados .horario {
+    font-size: 0.92rem;
+}
+
+.contato-acoes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.telefone {
+    color: var(--azul);
+    font-family: var(--fonte-titulo);
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.telefone:hover {
+    text-decoration: underline;
+}
+
+.botao-mapa {
+    padding: 8px 16px;
+    background: var(--verde);
+    border-radius: 8px;
+    color: var(--branco);
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.botao-mapa:hover {
+    background: #0e4d36;
+}
+
+/* ---------- Rodapé ---------- */
+.rodape {
+    padding: 24px 16px;
+    background: var(--azul-escuro);
+    color: var(--branco);
+    text-align: center;
+}
+
+.rodape a {
+    color: var(--amarelo);
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 600px) {
+    .capa-placa {
+        bottom: 14px;
+        padding: 8px 14px;
+    }
+
+    .capa-placa h1 {
+        font-size: 1.35rem;
+    }
+
+    .capa-placa p {
+        font-size: 0.95rem;
+    }
+
+    /* No celular o menu não fica preso no topo, para sobrar espaço */
+    .menu {
+        position: static;
+    }
+
+    .menu li {
+        flex-basis: 90px;
+    }
+
+    .contato {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .contato-acoes {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .botao-mapa {
+        margin-left: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
